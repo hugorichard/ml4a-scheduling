@@ -1,5 +1,6 @@
 """Functions for scheduling based on ML predictions."""
 import numpy as np
+from mlforscheduling.utils import flow_time
 
 
 def etc_u2(jobs1, jobs2):
@@ -62,7 +63,7 @@ def etc_u2(jobs1, jobs2):
     return np.array(order)
 
 
-def etc_u(f, jobs):
+def etc_u(f, jobs, return_type=False, return_order=False):
     """Explore then commit with uniform exploration.
 
     Explore jobs alternatively and commit to best options when confident enough.
@@ -84,12 +85,14 @@ def etc_u(f, jobs):
     """
     # Assume the jobs have the same length
     order = []
+    type_order = []
     k, n = jobs.shape
     m = np.ones(k)
     P = np.zeros((k, n))
     P[:, 0] = jobs[:, 0]
-    for job in jobs[:, 0]:
+    for t, job in enumerate(jobs[:, 0]):
         order.append(job)
+        type_order.append(t)
     d = np.zeros((k, k))
     r = np.zeros((k, k))
     U = []
@@ -106,6 +109,7 @@ def etc_u(f, jobs):
                 d[i, j] = np.sqrt(np.log(2 * f(n)) / (2 * m_ij))
                 r[i, j] = 1 / m_ij * np.sum(P[i, :m_ij] < P[j, :m_ij])
 
+
         A = []
         for z in U:
             addz = True
@@ -119,9 +123,11 @@ def etc_u(f, jobs):
         A = np.array(A)
         if len(A) > 1:
             j = np.argmin(m[A])
+            j = A[j]
             m[j] += 1
             P[j, int(m[j]) - 1] = jobs[j, int(m[j]) - 1]
             order.append(jobs[j, int(m[j]) - 1])
+            type_order.append(j)
             if m[j] >= n:
                 U = [z for z in U if z != j]
         else:
@@ -129,7 +135,12 @@ def etc_u(f, jobs):
             P[j, int(m[j]) :] = jobs[j, int(m[j]) :]
             for job in jobs[j, int(m[j]) :]:
                 order.append(job)
+                type_order.append(j)
             m[j] += n - m[j]
             U = [z for z in U if z != j]
         if len(U) == 0:
-            return np.array(order)
+            if return_order:
+                return np.array(order)
+            if return_type:
+                return np.array(type_order)
+            return flow_time(order)

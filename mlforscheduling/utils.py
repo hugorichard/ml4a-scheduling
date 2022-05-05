@@ -25,7 +25,25 @@ def opt2(jobs1, jobs2):
     return order
 
 
-def opt(jobs):
+def rr(jobs):
+    """Compute the flow time of Round Robin.
+
+    Parameters
+    ----------
+    jobs : np array of size k, n
+        jobs[i, j] is the processing times of the jth job of type i
+
+    Return
+    ------
+    flow_time: float
+        The flow time
+    """
+    X = jobs.flatten()
+    n=len(X)
+    return (2*np.flip(np.arange(n))+1)@np.sort(X)
+
+
+def opt(jobs, return_type=False, return_order=False):
     """Optimal scheduling.
 
     Schedule the smallest job first
@@ -40,9 +58,14 @@ def opt(jobs):
     order: np array of size kn
         The processing times ordered as executed by the algo
     """
+    k, n = jobs.shape
     order = jobs.flatten()
     order = np.sort(order)
-    return order
+    if return_order:
+        return order
+    if return_type:
+        return np.array([[i] * n for i in range(k)])
+    return flow_time(order)
 
 
 def flow_time(order):
