@@ -39,8 +39,35 @@ def rr(jobs):
         The flow time
     """
     X = jobs.flatten()
-    n=len(X)
-    return (2*np.flip(np.arange(n))+1)@np.sort(X)
+    n = len(X)
+    return (2 * np.flip(np.arange(n)) + 1) @ np.sort(X)
+
+
+def rr_run(current_time, old_jobs):
+    """Flow time completing one job with RR.
+
+    Parameters
+    ------
+    current_time: float
+    old_jobs: np array
+
+    Return
+    ------
+    new_current_time: float
+    flow_time: float
+    new_jobs: np array
+    i: index of finished job
+    """
+    jobs = np.copy(old_jobs)
+    I = jobs > 0
+    jobs = jobs[I]
+    n = len(jobs)
+    i = np.argmin(jobs)
+    ji = jobs[i]
+    assert np.sum(jobs == ji) < 2  # Check that no jobs are equal
+    flow_time = n**2 * ji
+    current_time += n * ji
+    return current_time, flow_time, old_jobs - ji, i
 
 
 def opt(jobs, return_type=False, return_order=False):

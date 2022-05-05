@@ -1,11 +1,24 @@
 from mlforscheduling.etc_u import etc_u2, etc_u
-from mlforscheduling.utils import opt, opt2
+from mlforscheduling.utils import opt, opt2, rr, rr_run
 import numpy as np
 
 
 def test_opt_opt2():
     jobs = np.random.rand(2, 5)
     np.testing.assert_allclose(opt(jobs, return_order=(True)), opt2(jobs[0], jobs[1]))
+
+
+def test_rr():
+    jobs = np.random.randint(10, size=10) + 1 + np.random.rand(10)
+    cost = rr(jobs)
+    n = len(jobs)
+    current_time = 0
+    new_jobs = jobs
+    costrr = 0
+    for i in range(n):
+        current_time, flow_time, new_jobs, i = rr_run(current_time, new_jobs)
+        costrr += flow_time
+    assert np.abs(costrr - cost) < 1e-10
 
 
 def test_etcu():
@@ -22,13 +35,17 @@ def test_etcu():
 
 def test_etcu_opt():
     jobs = np.array([[1, 2, 3], [1, 2, 3]])
-    np.testing.assert_allclose(etc_u(lambda n: 6 * n**2, jobs, return_order=True), opt(jobs, return_order=(True)))
+    np.testing.assert_allclose(
+        etc_u(lambda n: 6 * n**2, jobs, return_order=True),
+        opt(jobs, return_order=(True)),
+    )
 
 
 def test_etcu_worst():
     jobs = np.array([[3, 2, 1], [1, 2, 3]])
     np.testing.assert_allclose(
-        etc_u(lambda n: 6 * n**2, jobs, return_order=(True)), np.array([3, 1, 2, 2, 1, 3])
+        etc_u(lambda n: 6 * n**2, jobs, return_order=(True)),
+        np.array([3, 1, 2, 2, 1, 3]),
     )
 
 
