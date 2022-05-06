@@ -1,4 +1,5 @@
 from mlforscheduling.etc_u import etc_u2, etc_u
+from mlforscheduling.etc_rr import etc_rr
 from mlforscheduling.utils import opt, opt2, rr, rr_run
 import numpy as np
 
@@ -16,10 +17,28 @@ def test_rr():
     new_jobs = jobs
     costrr = 0
     for i in range(n):
-        current_time, flow_time, new_jobs, i = rr_run(current_time, new_jobs)
-        costrr += flow_time
+        current_time, new_jobs, i = rr_run(current_time, new_jobs)
+        costrr += current_time
     assert np.abs(costrr - cost) < 1e-10
 
+def test_etcrr2():
+    n = 3
+    jobs = np.vstack(
+        [[10] * n + np.arange(n), [20]*n + np.arange(n), [30]*n + np.arange(n)]
+    )
+    print(jobs)
+    f_time = etc_rr(lambda n: 6 * n**2, jobs)
+    cost = 10 * 3 #11, 10, 20, Done [0]
+    cost += 10 * 3 + 10*3 # 1, 21, 10, Done [0, 1]
+    cost += 10 * 3 + 10*3 + 1*3 # 12, 20, 9, Done [0, 1, 0]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 # 3, 11, 31, Done [0, 1, 0, 2]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 + 3 * 3 # 8, 28, Done [0, 1, 0, 2, 0]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 + 3 * 3 + 8 * 2 # 22, 20, Done [0, 1, 0, 2, 0, 1]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 + 3 * 3 + 8 * 2 + 20 * 2 # 2, 32, Done [0, 1, 0, 2, 0, 1, 2]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 + 3 * 3 + 8 * 2 + 20 * 2 + 2 * 2
+    # 30, Done [0, 1, 0, 2, 0, 1, 2, 1]
+    cost += 10 * 3 + 10*3 + 1*3 + 9*3 + 3 * 3 + 8 * 2 + 20 * 2 + 2 * 2 + 30
+    assert cost == f_time
 
 def test_etcu():
     jobs = np.vstack(
@@ -49,7 +68,7 @@ def test_etcu_worst():
     )
 
 
-def test_explore():
+def test_etcu_explore():
     n = 200
     jobs = np.vstack(
         [
@@ -62,3 +81,17 @@ def test_explore():
     res = etc_u(lambda n: 6 * n**2, jobs, return_type=True)
     print(res)
     assert len(res) == len(jobs.flatten())
+
+
+def test_etcu_explore():
+    n = 200
+    jobs = np.vstack(
+        [
+            np.random.exponential(1, size=n),
+            np.random.exponential(10, size=n),
+            np.random.exponential(30, size=n),
+        ]
+    )
+    res = etc_rr(lambda n: 6 * n**2, jobs)
+    res2 = etc_u(lambda n: 6 * n**2, jobs)
+    assert res < res2

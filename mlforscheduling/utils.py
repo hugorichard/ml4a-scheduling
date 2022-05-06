@@ -65,9 +65,15 @@ def rr_run(current_time, old_jobs):
     i = np.argmin(jobs)
     ji = jobs[i]
     assert np.sum(jobs == ji) < 2  # Check that no jobs are equal
-    flow_time = n**2 * ji
     current_time += n * ji
-    return current_time, flow_time, old_jobs - ji, i
+    return current_time, old_jobs - ji, i
+
+
+def ftpp(jobs):
+    means = np.means(jobs, axis=1)
+    I = np.argsort(means)
+    order = jobs[I, :]
+    return flow_time(order.flatten())
 
 
 def opt(jobs, return_type=False, return_order=False):

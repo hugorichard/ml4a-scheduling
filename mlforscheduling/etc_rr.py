@@ -3,7 +3,7 @@ import numpy as np
 from mlforscheduling.utils import rr_run, flow_time
 
 
-def etc_rr(f, jobs):
+def etc_rr(f, jobs, return_type_done=False):
     """Explore then commit with RR exploration.
 
     Explore simultaneously all types that are likely to be the smallest.
@@ -32,6 +32,7 @@ def etc_rr(f, jobs):
     J = np.zeros(k)
     time = 0
     f_time = 0
+    type_done = []
     remaining_jobs = np.copy(jobs)
     for _ in range(n*k):
         A = []
@@ -44,12 +45,17 @@ def etc_rr(f, jobs):
                     keep = False
             if keep:
                 A.append(z)
+        A = np.array(A)
+        A = A.astype(np.int_)
+        J = J.astype(np.int_)
         if len(A) > 1:
-            time, D_f_time, remaining_jobs[A, J[A]], alpha = rr_run(
+            time, remaining_jobs[A, J[A]], alpha = rr_run(
                 time, remaining_jobs[A, J[A]]
             )
+            alpha = A[alpha]
+            type_done.append(alpha)
             J[alpha] += 1
-            f_time += D_f_time
+            f_time += time
 
             for z in A:
                 if z == alpha:
@@ -68,4 +74,13 @@ def etc_rr(f, jobs):
             rja = rja[rja > 0]
             rja[0] = rja[0] + time
             f_time += flow_time(rja)
+            for _ in range(len(rja)):
+                type_done.append(a)
             U = [u for u in U if u != a]
+        if len(U) == 0:
+            break
+
+    if return_type_done:
+        return type_done
+    else:
+        return f_time
