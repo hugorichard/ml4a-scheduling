@@ -63,7 +63,7 @@ def etc_u2(jobs1, jobs2):
     return np.array(order)
 
 
-def etc_u(f, jobs, return_type=False, return_order=False):
+def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
     """Explore then commit with uniform exploration.
 
     Explore jobs alternatively and commit to best options when confident enough.
@@ -108,7 +108,6 @@ def etc_u(f, jobs, return_type=False, return_order=False):
                 m_ij = int(min(m[i], m[j]))
                 d[i, j] = np.sqrt(np.log(2 * f(n)) / (2 * m_ij))
                 r[i, j] = 1 / m_ij * np.sum(P[i, :m_ij] < P[j, :m_ij])
-
 
         A = []
         for z in U:
