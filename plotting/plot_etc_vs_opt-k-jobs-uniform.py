@@ -37,4 +37,4 @@ for ii, algo in enumerate(["ETC-U", "ETC-RR", "RR", "FTPP"]):
     plt.ylabel("Competitive Ratio")
 plt.legend()
 plt.savefig("../figures/etc-vs-opt-k-jobs-uniform.pdf", bbox_inches="tight")
-plt.savefig("../figures/etc-vs-opt-k-jobs-uniform.pdf", bbox_inches="tight")
+plt.savefig("../figures/etc-vs-opt-k-jobs-uniform.png", bbox_inches="tight")
