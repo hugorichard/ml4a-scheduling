@@ -8,4 +8,5 @@ setup(
     description="",
     license="BSD",
     keywords="ML4A",
+    packages=[],
 )

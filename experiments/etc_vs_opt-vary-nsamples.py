@@ -1,6 +1,5 @@
-"""Experiments."""
+"""Reproducing Figure 2 (right): run experiment."""
 
-# TODO 1, 2, FTP correct, FTP wrong
 import numpy as np
 from joblib import Parallel, delayed
 from mlforscheduling.etc_rr import etc_rr
@@ -23,7 +22,7 @@ def do_stuff(seed, n, k, M):
         for i in range(k):
             jobs.append(rng.exponential(scale=lambdas[i], size=n))
         jobs = np.array(jobs)
-        flow_times.append(algo(jobs)/opt(jobs))
+        flow_times.append(algo(jobs) / opt(jobs))
     return flow_times
 
 

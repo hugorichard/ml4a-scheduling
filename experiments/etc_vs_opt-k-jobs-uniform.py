@@ -1,6 +1,5 @@
-"""Experiments."""
+"""Reproducing Figure 2 (left): run experiment."""
 
-# TODO 1, 2, FTP correct, FTP wrong
 import numpy as np
 from joblib import Parallel, delayed
 from mlforscheduling.etc_rr import etc_rr

@@ -1,12 +1,10 @@
-"""Experiments."""
+"""Reproducing Figure 1: run experiment."""
 
-# TODO 1, 2, FTP correct, FTP wrong
-import matplotlib.pyplot as plt
 import numpy as np
-from mlforscheduling.etc_u import etc_u
-from mlforscheduling.etc_rr import etc_rr
-from mlforscheduling.utils import opt, ftpp, rr
 from joblib import Parallel, delayed
+from mlforscheduling.etc_rr import etc_rr
+from mlforscheduling.etc_u import etc_u
+from mlforscheduling.utils import ftpp, opt, rr
 
 n = 2000
 lambda1 = np.linspace(0.02, 1, 20)

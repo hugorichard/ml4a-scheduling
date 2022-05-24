@@ -1,6 +1,6 @@
+"""Reproducing Figure 3: run experiment."""
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import minimize, LinearConstraint
+from scipy.optimize import LinearConstraint, minimize
 
 
 def CR(x):
