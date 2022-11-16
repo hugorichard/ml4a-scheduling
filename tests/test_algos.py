@@ -1,6 +1,7 @@
 from mlforscheduling.etc_u import etc_u2, etc_u
 from mlforscheduling.etc_rr import etc_rr
 from mlforscheduling.utils import opt, opt2, rr, rr_run, ftpp, rr_per_type
+from mlforscheduling.lsept import lsept
 import numpy as np
 
 
@@ -124,3 +125,15 @@ def test_etcu_explore():
     res = etc_rr(jobs)
     res2 = etc_u(jobs)
     assert res < res2
+
+
+def test_lsept():
+    n = 1000
+    jobs = np.vstack(
+        [
+            np.random.exponential(1.8, size=n),
+            np.random.exponential(2, size=n),
+        ]
+    )
+    lsept(jobs, alpha=2, w=0)
+    assert False
