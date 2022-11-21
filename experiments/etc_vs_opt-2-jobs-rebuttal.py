@@ -10,20 +10,19 @@ from mlforscheduling.lsept import lsept
 from mlforscheduling.ucb_u import ucb_u
 from mlforscheduling.ucb_rr import ucb_rr
 n = 1000
-lambda1 = np.linspace(0.5, 1, 3)
+lambda1 = np.linspace(0.1, 1, 10)
 lambda2 = 1
 seeds = np.arange(200)
 def do_stuff(seed, lambda1, lambda2, n):
     rng = np.random.RandomState(seed)
     flow_times = []
-    # for algo in [etc_u, etc_rr, rr, ftpp, lsept,ucb_u,ucb_rr]:#
-    for algo in [ucb_rr]:
+    for algo in [ftpp, etc_u, etc_rr, rr,  lsept,ucb_u,ucb_rr, opt]:#
         flow_times_alg = []
         for sc in lambda1:
             jobs1 = rng.exponential(scale=sc, size=n)
             jobs2 = rng.exponential(scale=1, size=n)
             flow_times_alg.append(
-                algo(np.vstack([jobs1, jobs2])) / opt(np.vstack([jobs1, jobs2]))
+                algo(np.vstack([jobs1, jobs2]))
             )
         flow_times.append(flow_times_alg)
     return flow_times

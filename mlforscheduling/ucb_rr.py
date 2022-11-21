@@ -26,7 +26,7 @@ def ucb_rr(jobs):
         The processing times ordered as executed by the algo
     """
     # Assume the jobs have the same length
-    delta=0.1
+    delta=0.001
     f=lambda n: 6 * n**2
     return_type=False
     return_order=False
