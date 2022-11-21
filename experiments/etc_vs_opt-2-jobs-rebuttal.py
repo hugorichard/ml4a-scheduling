@@ -6,17 +6,18 @@ from mlforscheduling.etc_rr import etc_rr
 from mlforscheduling.etc_u import etc_u
 from mlforscheduling.utils import ftpp, opt, rr
 from mlforscheduling.lsept import lsept
-
-n = 10000
-lambda1 = np.linspace(0.8, 1, 6)
+from mlforscheduling.lsept import lsept
+from mlforscheduling.ucb_u import ucb_u
+from mlforscheduling.ucb_rr import ucb_rr
+n = 1000
+lambda1 = np.linspace(0.5, 1, 3)
 lambda2 = 1
-seeds = np.arange(100)
-
-
+seeds = np.arange(200)
 def do_stuff(seed, lambda1, lambda2, n):
     rng = np.random.RandomState(seed)
     flow_times = []
-    for algo in [etc_u, etc_rr, rr, ftpp, lsept]:
+    # for algo in [etc_u, etc_rr, rr, ftpp, lsept,ucb_u,ucb_rr]:#
+    for algo in [ucb_rr]:
         flow_times_alg = []
         for sc in lambda1:
             jobs1 = rng.exponential(scale=sc, size=n)
@@ -26,8 +27,6 @@ def do_stuff(seed, lambda1, lambda2, n):
             )
         flow_times.append(flow_times_alg)
     return flow_times
-
-
 all_flow_times = Parallel(n_jobs=10, verbose=True)(
     delayed(do_stuff)(seed, lambda1, lambda2, n) for seed in seeds
 )
