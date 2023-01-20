@@ -9,5 +9,6 @@ COLORS = {
     "TYPED-RR": cm(4),
     "LSEPT": cm(5),
     "UCB-U": cm(6),
+    "ETC-U-BIS": cm(10),
     "UCB-RR": cm(7),
 }

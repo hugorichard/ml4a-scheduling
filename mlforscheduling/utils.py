@@ -154,3 +154,43 @@ def flow_time(order):
         current_time += p
         flow_times.append(current_time)
     return np.sum(flow_times)
+
+from numba import jit
+import numpy as np 
+
+
+
+#@jit(nopython=True)
+def klBern_numba(x, y,eps=1e-6):
+    x = min(max(x, eps), 1 - eps)
+    y = min(max(y, eps), 1 - eps)
+    return x * np.log(x / y) + (1 - x) * np.log((1 - x) / (1 - y))
+
+#@jit
+def klucb_numba(x, d, kl, upperbound=1,
+                lowerbound=0, precision=1e-6, max_iterations=100,lower=False):
+#lowerbound version
+    value = min(x, upperbound)
+    if lower:
+        u = lowerbound
+    else:
+        u=upperbound
+    _count_iteration = 0
+    while _count_iteration < max_iterations and np.abs(value - u) > precision:
+        _count_iteration += 1
+        m = (value + u) / 2.
+        if kl(x, m) > d:
+            u = m
+        else:
+            value = m
+    #print(_count_iteration )
+    return (value + u) / 2.
+
+
+
+#@jit
+def klucbBern_numba(x, d, precision=1e-6,lower=False):
+    upperbound = 1.#min(1., klucbGauss_numba(x, d, sig2x=0.25))  # variance 1/4 for [0,1] bounded distributions
+    lowerbound = 0.
+    # upperbound = min(1., klucbPoisson(x, d))  # also safe, and better ?
+    return klucb_numba(x, d, klBern_numba, upperbound, precision,lower=lower)

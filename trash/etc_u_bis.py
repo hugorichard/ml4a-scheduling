@@ -145,3 +145,61 @@ def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
                 return np.array(type_order)
             return flow_time(order)
 
+def etc_u_bis(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
+    order = []
+    type_order = []
+    k, n = jobs.shape
+    m = np.array([0]*k)
+    total_time = np.zeros(k)
+    bound = np.zeros((k,2))
+    bound[:,1]=np.inf
+    while len(type_order)<(k*n):
+        running_jobs = init_running_jobs(k,m,n,bound)
+        if len(running_jobs)==1:
+            i = running_jobs[0]
+            type_order = type_order+[i]*(n-int(m[i]))
+            order = order+ list(jobs[i,int(m[i]):])
+            m[i] = n
+        else:
+            j = np.argmin(m[running_jobs])
+            j = running_jobs[j]
+            order.append(jobs[j,m[j]])
+            type_order.append(j)
+            total_time[j]+=jobs[j,m[j]]
+            m[j]+=1
+            bound = update_confidence_bound(bound,m, j , total_time,n)
+    if return_order:
+       return np.array(order)
+    if return_type:
+        return np.array(type_order)
+    return flow_time(order)
+
+
+def init_running_jobs(k,m,n,bound):
+    running_jobs = np.where(m<n)[0]
+    lowest_up = np.min(bound[running_jobs,1])
+    running_jobs = np.array([i for i in running_jobs if bound[i,0]<=lowest_up])
+    return running_jobs
+
+def update_confidence_bound(bound,m, i , total_time,n):
+    bound[i,1] = 2*total_time[i]/chi2.ppf(1/(2*n**2),2*m[i]) #update upper bound
+    bound[i,0] = 2*total_time[i]/chi2.ppf(1-1/(2*n**2),2*m[i]) #update lower bound
+    return bound
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

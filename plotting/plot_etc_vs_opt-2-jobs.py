@@ -20,11 +20,11 @@ flow_times = np.median(all_flow_times, axis=0)
 lambda1 = np.linspace(0.02, 1, 20)
 
 plt.figure()
-for i, algo in enumerate(["ETC-U", "ETC-RR", "RR", "FTPP"]):
+for i, algo in enumerate(["ETC-U", "ETC-RR","UCB-U","UCB-RR","RR", "FTPP"]):
     plt.plot(lambda1, flow_times[i], label=algo, color=COLORS[algo])
-    plt.fill_between(
-        lambda1, flow_times_low[i], flow_times_high[i], alpha=0.3, color=COLORS[algo]
-    )
+   # plt.fill_between(
+   #     lambda1, flow_times_low[i], flow_times_high[i], alpha=0.3, color=COLORS[algo]
+   # )
     plt.axvline(1 / (1 + 2 * np.sqrt(2)), color="black", linestyle="--")
     plt.xlabel("Mean processing time of job 1 ($\lambda_1$)")
     plt.ylabel("Competitive Ratio")
