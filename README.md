@@ -12,19 +12,18 @@ After required dependency are installed (via `pip install -r requirements.txt`) 
 
 For the core algorithms:
 
-- numpy >= 1.16
+- numpy>=1.16
+- scipy>=1.3.2
+- numba >= 0.56.4
 
-To reproduce Figure 1 and 2:
+To reproduce and plot the experiments (Figures 1, 2 and 3).
 
-- numpy >= 1.16
-- joblib >= 1.0.0
-- matplotlib >= 2.0.0 
+- matplotlib>=2.0.0
+- joblib>=1.2.0
 
-To reproduce Figure 3:
+To run the tests:
 
-- numpy >= 1.16
-- scipy >= 1.3.2
-- matplotlib
+- pytest>=5.0.1
 
 To install all requirements, go in the `ml4a-scheduling` directory and run
 `pip install -r requirements.txt`
@@ -32,55 +31,42 @@ To install all requirements, go in the `ml4a-scheduling` directory and run
 
 ## Experiments
 
-### Scheduling 2 groups of n=2000 jobs with varying expected size (Figure 1)
+### Scheduling 2 groups of a varying number of jobs with fixed expected job processing time (Figure 1)
 Go in the `experiments` directory.
 
-Run `python etc_vs_opt-2-jobs.py` (Running time (total): 17.549s)
+Run `python all_algos-vary-nsamples.py`
 
 Go in the `plotting` directory.
 
-Run `python plot_etc_vs_opt-2-jobs.py`
+Run `python plot_all_algos-vary-nsamples.py`
 
-See the figure in `figures/etc-vs-opt-2-jobs.pdf`.
+See the figure in `figures/all_algos_vary_nsamples.pdf`.
 
-![Figure 1](./figures/etc-vs-opt-2-jobs.png)
+![Figure 1](./figures/all_algos_vary_nsamples.png)
 
 
-### Scheduling k groups of n=2000 jobs with uniform expected size where k varies (Figure 2, Left)
+### Scheduling 2 groups of n=50 jobs with varying expected job processing time (Figure 2)
 Go in the `experiments` directory.
 
-Run `python etc_vs_opt-k-jobs-uniform.py` (Running time (total): 5.3min)
+Run `python n_50_vary_lambda_logscale.py`
 
 Go in the `plotting` directory.
 
-Run `python plot_etc_vs_opt-k-jobs-uniform.py`
+Run `python plot_n_50_vary_lambda_logscale.py`
 
-See the figure in `figures/etc-vs-opt-k-jobs-uniform.pdf`.
+See the figure in `figures/n_50_vary_lambda_logscale.pdf`.
 
-![Figure 2, Left](./figures/etc-vs-opt-k-jobs-uniform.png)
+![Figure 2](./figures/n_50_vary_lambda_logscale.png)
 
-### Scheduling k=3 groups of n jobs with uniform expected size where n varies (Figure 2, Right)
+### Benchmark LSEPT with 2 groups of a varying number of jobs with fixed expected job processing time (Figure 3)
 Go in the `experiments` directory.
 
-Run `python etc_vs_opt-vary-nsamples.py` (Running time (total): 21.920s)
+Run `python nsamples_lsept.py`
 
 Go in the `plotting` directory.
 
-Run `python plot_etc_vs_opt-vary-nsamples.py`
+Run `python plot_vary-nsamples_lsept.py`
 
-See the figure in `figures/etc-vs-opt-vary-nsamples.pdf`.
+See the figure in `figures/vary-nsamples_lsept.pdf`.
 
-![Figure 2, Right](./figures/etc-vs-opt-vary-nsamples.png)
-
-### Minimum of the CR with k groups of n jobs as n goes to infinity (Figure 3)
-Go in the `experiments` directory.
-
-Run `python asymptotic-cr-numerical-optimization.py` (Running time (total): 2.5min)
-
-Go in the `plotting` directory.
-
-Run `python plot_asymptotic_cr.py`
-
-See the figure in `figures/asymptotic-cr.pdf`.
-
-![Figure 3, Right](./figures/asymptotic-cr.png)
+![Figure 3](./figures/vary-nsamples_lsept.png)
