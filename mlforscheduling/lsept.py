@@ -39,7 +39,7 @@ def lsept(jobs, alpha=2, w=0, return_order=False):
     ----------
         Marbán, S., Rutten, C., and Vredeveld, T. Learning in
         stochastic machine scheduling. In International Work-
-        shop on Approximation and Online Algorithms, pp. 21–
+        shop on Approximation and Online Algorithms, pp. 21
         34. Springer, 2011.
     """
     # Assume the jobs have the same length
