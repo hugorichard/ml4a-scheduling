@@ -102,10 +102,15 @@ def rr_run(current_time, old_jobs):
     return current_time, old_jobs - ji, i
 
 
-def ftpp(jobs):
-    """Follow the perfect predictions."""
-    means = np.mean(jobs, axis=1)
-    I = np.argsort(means)
+def ftpp(jobs,order="default"):
+    if order=="default":
+        means = np.mean(jobs, axis=1)
+        k,_ = np.shape(jobs)
+        I = np.arange(k)
+    else:
+#    """Follow the perfect predictions."""
+        means = np.mean(jobs, axis=1)
+        I = np.argsort(means)
     order = jobs[I, :]
     return flow_time(order.flatten())
 
