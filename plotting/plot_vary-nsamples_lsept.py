@@ -1,3 +1,4 @@
+"""Reproducing Figure 3: plotting"""
 import matplotlib.pyplot as plt
 import numpy as np
 from plotting.params import COLORS
@@ -23,14 +24,24 @@ deviation = np.std(all_flow_times, axis=0)
 flow_times = np.mean(all_flow_times, axis=0)
 
 indices = {}
-for i, algo in enumerate(["RR","FTPP","LSEPT"]):#"ETC-U", "ETC-RR", "UCB-U","UCB-RR", 
+for i, algo in enumerate(
+    ["RR", "FTPP", "LSEPT"]
+):  # "ETC-U", "ETC-RR", "UCB-U","UCB-RR",
     indices[algo] = i
 
 plt.figure()
-for ii, algo in enumerate([ "RR","FTPP","LSEPT"]):#"ETC-U", "ETC-RR", "UCB-U","UCB-RR",
+for ii, algo in enumerate(
+    ["RR", "FTPP", "LSEPT"]
+):  # "ETC-U", "ETC-RR", "UCB-U","UCB-RR",
     i = indices[algo]
     plt.semilogx(ns, flow_times[:, i], label=algo, color=COLORS[algo])
-    plt.fill_between(ns, flow_times[:, i]-2*deviation[:, i]/np.sqrt(n_seeds), flow_times[:, i]+2*deviation[:, i]/np.sqrt(n_seeds), alpha=0.1, color=COLORS[algo])
+    plt.fill_between(
+        ns,
+        flow_times[:, i] - 2 * deviation[:, i] / np.sqrt(n_seeds),
+        flow_times[:, i] + 2 * deviation[:, i] / np.sqrt(n_seeds),
+        alpha=0.1,
+        color=COLORS[algo],
+    )
     plt.xlabel("Number of jobs per type ($n$)")
     plt.ylabel("Competitive Ratio")
 plt.legend()

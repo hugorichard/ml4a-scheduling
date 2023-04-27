@@ -21,12 +21,11 @@ def test_rr():
     assert np.abs(costrr - cost) < 1e-10
 
 
-
 def test_etcu_opt():
     jobs = np.array([[1, 2, 3], [1, 2, 3]])
     np.testing.assert_allclose(
-        etc_u(jobs, return_order=True),
-        opt(jobs, return_order=(True)),
+        etc_u(jobs, return_order=False),
+        opt(jobs, return_order=False),
     )
 
 
@@ -38,27 +37,12 @@ def test_etcu_worst():
     )
 
 
-def test_etcu_explore():
-    n = 200
-    jobs = np.vstack(
-        [
-            np.random.exponential(1, size=n),
-            np.random.exponential(10, size=n),
-            np.random.exponential(30, size=n),
-        ]
-    )
-    jobs = jobs.astype(int)
-    res = etc_u(jobs, return_type=True)
-    print(res)
-    assert len(res) == len(jobs.flatten())
-
-
 def test_ftpp():
     n = 5
     jobs = np.array([[1] * n, [2] * n, [4] * n])
     f = ftpp(jobs)
     f2 = opt(jobs)
-    print(4 * n )
+    print(4 * n)
     assert f == f2
 
 
@@ -89,7 +73,7 @@ def test_etcu_explore():
     assert res < res2
 
 
-@pytest.mark.parametrize("algo", [lsept, etc_u, etc_rr, ucb_u, ucb_rr,rr, ftpp,opt])
+@pytest.mark.parametrize("algo", [lsept, etc_u, etc_rr, ucb_u, ucb_rr, rr, ftpp, opt])
 def test_algos(algo):
     n = 1000
     jobs = np.vstack(

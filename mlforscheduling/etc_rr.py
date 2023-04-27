@@ -1,20 +1,20 @@
 """Functions for scheduling based on ML predictions."""
 import numpy as np
-from mlforscheduling.utils import rr_run, flow_time, klucbBern_numba
+from mlforscheduling.utils import rr_run, flow_time
 
 
-def etc_rr(jobs, f=lambda n: 6 * n**2, return_type_done=False):
+def etc_rr(jobs, f=lambda n: 6 * n**2):
     """Explore then commit with RR exploration.
 
     Explore simultaneously all types that are likely to be the smallest.
 
     Parameters
     ----------
-    f: int -> int
-        A function of n
-
     jobs : np array of size k, n
         jobs[i, j] is the processing times of the jth job of type i
+
+    f: int -> int
+        A function of n
 
     Return
     ------
@@ -74,14 +74,11 @@ def etc_rr(jobs, f=lambda n: 6 * n**2, return_type_done=False):
             rja[0] = rja[0] + time
             f_time += flow_time(rja)
             time = time + dt
-            remaining_jobs[a, :]= 0
+            remaining_jobs[a, :] = 0
             for _ in range(len(rja)):
                 type_done.append(a)
             U = [u for u in U if u != a]
         if len(U) == 0:
             break
 
-    if return_type_done:
-        return type_done
-    else:
-        return f_time
+    return f_time

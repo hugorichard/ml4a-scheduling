@@ -1,4 +1,4 @@
-"""Reproducing Figure 1: run experiment."""
+"""Reproducing Figure 2: run experiments and save results"""
 
 import numpy as np
 from joblib import Parallel, delayed

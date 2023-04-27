@@ -3,10 +3,13 @@ import numpy as np
 from mlforscheduling.utils import flow_time
 
 
-def lsept(jobs, alpha=2, w=0, return_type=False, return_order=False):
+def lsept(jobs, alpha=2, w=0, return_order=False):
     """LSEPT bayesian approach of S Marban
-
-    Use the learning lsept
+    The prior belief about job sizes
+    is given by a Gamma distribution.  Job sizes are assumed to follow an exponential distribution.
+    Jobs are processed by increasing expected processing time according to the posterior distribution:
+    a weighted average of the observed realizations and the expected processing time
+    prior to seeing any realization.
 
     Parameters
     ----------
@@ -19,10 +22,25 @@ def lsept(jobs, alpha=2, w=0, return_type=False, return_order=False):
     w : float
         Parameter of the Gamma prior for all types
 
+    return_order : bool
+        If True, etc_u returns order, If False, returns flow_time
+
     Return
     ------
-    order : np array of size kn
-        The processing times ordered as executed by the algo
+
+    order: np array
+        Array of job sizes ordered by starting time
+
+    flow_time : float
+        Flow time obtained
+
+
+    References
+    ----------
+        Marbán, S., Rutten, C., and Vredeveld, T. Learning in
+        stochastic machine scheduling. In International Work-
+        shop on Approximation and Online Algorithms, pp. 21–
+        34. Springer, 2011.
     """
     # Assume the jobs have the same length
     order = []

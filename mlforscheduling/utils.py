@@ -19,6 +19,7 @@ def rr(jobs):
     n = len(X)
     return (2 * np.flip(np.arange(n)) + 1) @ np.sort(X)
 
+
 def rr_run(current_time, old_jobs):
     """Flow time completing one job with RR.
 
@@ -46,11 +47,16 @@ def rr_run(current_time, old_jobs):
 
 
 def ftpp(jobs):
-    """
-    jobs: np array of size (n_types, n_jobs)
+    """Follow the perfect prediction.
+    Computes jobs in order of their increasing type means.
+
+    Parameters
+    ----------
+
+    jobs: np array of size (k, n)
         Must be ordered by increasing types means
     """
-    k,_ = np.shape(jobs)
+    k, _ = np.shape(jobs)
     I = np.arange(k)
     order = jobs[I, :]
     return flow_time(order.flatten())
@@ -101,42 +107,50 @@ def flow_time(order):
         flow_times.append(current_time)
     return np.sum(flow_times)
 
+
 from numba import jit
-import numpy as np 
+import numpy as np
 
 
-
-#@jit(nopython=True)
-def klBern_numba(x, y,eps=1e-6):
+# @jit(nopython=True)
+def klBern_numba(x, y, eps=1e-6):
     x = min(max(x, eps), 1 - eps)
     y = min(max(y, eps), 1 - eps)
     return x * np.log(x / y) + (1 - x) * np.log((1 - x) / (1 - y))
 
-#@jit
-def klucb_numba(x, d, kl, upperbound=1,
-                lowerbound=0, precision=1e-6, max_iterations=100,lower=False):
-#lowerbound version
+
+# @jit
+def klucb_numba(
+    x,
+    d,
+    kl,
+    upperbound=1,
+    lowerbound=0,
+    precision=1e-6,
+    max_iterations=100,
+    lower=False,
+):
+    # lowerbound version
     value = min(x, upperbound)
     if lower:
         u = lowerbound
     else:
-        u=upperbound
+        u = upperbound
     _count_iteration = 0
     while _count_iteration < max_iterations and np.abs(value - u) > precision:
         _count_iteration += 1
-        m = (value + u) / 2.
+        m = (value + u) / 2.0
         if kl(x, m) > d:
             u = m
         else:
             value = m
-    #print(_count_iteration )
-    return (value + u) / 2.
+    # print(_count_iteration )
+    return (value + u) / 2.0
 
 
-
-#@jit
-def klucbBern_numba(x, d, precision=1e-6,lower=False):
-    upperbound = 1.#min(1., klucbGauss_numba(x, d, sig2x=0.25))  # variance 1/4 for [0,1] bounded distributions
-    lowerbound = 0.
+# @jit
+def klucbBern_numba(x, d, precision=1e-6, lower=False):
+    upperbound = 1.0  # min(1., klucbGauss_numba(x, d, sig2x=0.25))  # variance 1/4 for [0,1] bounded distributions
+    lowerbound = 0.0
     # upperbound = min(1., klucbPoisson(x, d))  # also safe, and better ?
-    return klucb_numba(x, d, klBern_numba, upperbound, precision,lower=lower)
+    return klucb_numba(x, d, klBern_numba, upperbound, precision, lower=lower)

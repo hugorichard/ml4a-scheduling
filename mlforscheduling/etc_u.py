@@ -4,7 +4,7 @@ from mlforscheduling.utils import flow_time
 from scipy.stats import chi2
 
 
-def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
+def etc_u(jobs, f=lambda n: 6 * n**2, return_order=False):
     """Explore then commit with uniform exploration.
 
     Explore jobs alternatively and commit to best options when confident enough.
@@ -19,10 +19,16 @@ def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
     jobs : np array of size k, n
         jobs[i, j] is the processing times of the jth job of type i
 
+    return_order : bool
+        If True, etc_u returns order, If False, returns flow_time
+
     Return
     ------
-    order : np array of size kn
-        The processing times ordered as executed by the algo
+    order: np array
+        Array of job sizes ordered by starting time
+
+    flow_time : float
+        Flow time obtained
     """
     # Assume the jobs have the same length
     order = []
@@ -81,7 +87,4 @@ def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
         if len(U) == 0:
             if return_order:
                 return np.array(order)
-            if return_type:
-                return np.array(type_order)
             return flow_time(order)
-
