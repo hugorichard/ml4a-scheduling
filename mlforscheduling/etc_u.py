@@ -4,66 +4,6 @@ from mlforscheduling.utils import flow_time
 from scipy.stats import chi2
 
 
-def etc_u2(jobs1, jobs2):
-    """Explore then commit with uniform exploration.
-
-    Explore jobs alternatively and commit to best options when confident enough.
-    All jobs of the same type are assumed to follow an exponential distribution
-    with the same mean.
-
-    Parameters
-    ----------
-    jobs1 : np array of size n
-        Jobs processing times of jobs of type 1
-
-    jobs2 : np array of size n
-        Jobs processing times of jobs of type 2
-
-    Return
-    ------
-    order : np array of size 2n
-        The processing times ordered as executed by the algo
-    """
-    # Assume the jobs have the same length
-    assert len(jobs1) == len(jobs2)
-
-    n = len(jobs1)
-    m = 0
-    current_time = 0
-    flow_times = []
-    remaining_jobs1 = np.full(n, True)
-    remaining_jobs2 = np.full(n, True)
-    order = []
-    r_hat = 0
-    while True:
-        # Run job of type 1
-        p1 = jobs1[m]
-        order.append(p1)
-        remaining_jobs1[m] = False
-        # Run job of type 2
-        p2 = jobs2[m]
-        order.append(p2)
-        remaining_jobs2[m] = False
-        r_hat = (r_hat * m + int(p1 < p2)) / (m + 1)
-        delta = np.sqrt(np.log(12 * n**2) / (2 * (m + 1)))
-        if r_hat - delta > 0.5 or r_hat + delta < 0.5:
-            break
-        m += 1
-        if m > (n - 1):
-            break
-
-    if r_hat > 0.5:
-        job_list = [jobs1[remaining_jobs1], jobs2[remaining_jobs2]]
-    else:
-        job_list = [jobs2[remaining_jobs2], jobs1[remaining_jobs1]]
-
-    # jobs of type 1 are lower
-    for jobs in job_list:
-        for p in jobs:
-            order.append(p)
-    return np.array(order)
-
-
 def etc_u(jobs, f=lambda n: 6 * n**2, return_type=False, return_order=False):
     """Explore then commit with uniform exploration.
 

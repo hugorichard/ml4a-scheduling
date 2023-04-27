@@ -15,14 +15,12 @@ plt.rcParams.update(rc)
 ns = np.logspace(start=1, stop=4, num=10)
 
 results = np.load("../experiments/data/all_algos_vary_nsamples.npy")
-# %%
-#
 all_flow_times = np.array(results)
 n_seeds = len(all_flow_times)
 ns,n_lambda,_ = np.shape(all_flow_times)
 flow_times = np.mean(all_flow_times, axis=0)
-flow_times_low = np.mean(all_flow_times, axis=0)
-flow_times_high = np.mean(all_flow_times, axis=0)
+flow_times_low = np.zeros_like(flow_times)
+flow_times_high = np.zeros_like(flow_times)
 deviation = np.std(all_flow_times, axis=0)/np.sqrt(ns)
 
 for i in range(6):
@@ -40,7 +38,7 @@ for i, algo in enumerate(["ETC-U", "ETC-RR", "UCB-U","UCB-RR", "RR","FTPP"]):
 lambda1 = [   10.,            21.5443469 ,    46.41588834,   100.,
    215.443469,     464.15888336,  1000.,          2154.43469003,
   4641.58883361, 10000.        ]
-print(len(flow_times[:, 1]))
+
 plt.figure()
 for ii, algo in enumerate(["ETC-U", "ETC-RR", "UCB-U","UCB-RR", "RR","FTPP"]):
     i = indices[algo]

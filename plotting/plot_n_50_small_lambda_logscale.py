@@ -12,12 +12,12 @@ rc = {
 }
 plt.rcParams.update(rc)
 
-all_flow_times = np.load("../experiments/data/n_50_vary_lambdas_logscale_many_seeds_test.npy")
+all_flow_times = np.load("../experiments/data/n_50_vary_lambdas_logscale.npy")
 print(np.shape(all_flow_times))
 n,_,n_lambda = np.shape(all_flow_times)
 flow_times = np.mean(all_flow_times, axis=0)
-flow_times_low = np.mean(all_flow_times, axis=0)
-flow_times_high = np.mean(all_flow_times, axis=0)
+flow_times_low = np.zeros_like(flow_times)
+flow_times_high = np.zeros_like(flow_times)
 
 deviation = np.std(all_flow_times, axis=0)/np.sqrt(n)
 

@@ -109,20 +109,5 @@ def klucb_numba(x, d, kl, upperbound=1,
 
 @njit
 def klucbBern_numba(x, d, precision=1e-9,lower=False):
-    upperbound = 1.#min(1., klucbGauss_numba(x, d, sig2x=0.25))  # variance 1/4 for [0,1] bounded distributions
-    lowerbound = 0.
-    # upperbound = min(1., klucbPoisson(x, d))  # also safe, and better ?
+    upperbound = 1
     return klucb_numba(x, d, klBern_numba, upperbound, precision,lower=lower)
-
-
-#@njit
-#def update_confidence_bound2(bound,m, i , total_time,n):
-#    if m[i]>n-1:
-#        bound[i]= -np.inf
-#    else:
-#        tot= np.sum(total_time)
-#        mean = m[i]/total_time[i]
-#        var = (m[i]*(1-mean)**2+(total_time[i]-m[i])*mean**2)/total_time[i]
-#        bound[i] = mean+np.sqrt(4*var*np.log(tot)/total_time[i])+2*np.log(tot)/total_time[i]
-#    return 
-

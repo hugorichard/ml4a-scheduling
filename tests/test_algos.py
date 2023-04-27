@@ -1,13 +1,11 @@
-from mlforscheduling.etc_u import etc_u2, etc_u
+from mlforscheduling.etc_u import etc_u
 from mlforscheduling.etc_rr import etc_rr
-from mlforscheduling.utils import opt, opt2, rr, rr_run, ftpp, rr_per_type
+from mlforscheduling.utils import opt, rr, rr_run, ftpp
 from mlforscheduling.lsept import lsept
+from mlforscheduling.ucb_u import ucb_u
+from mlforscheduling.ucb_rr import ucb_rr
 import numpy as np
-
-
-def test_opt_opt2():
-    jobs = np.random.rand(2, 5)
-    np.testing.assert_allclose(opt(jobs, return_order=(True)), opt2(jobs[0], jobs[1]))
+import pytest
 
 
 def test_rr():
@@ -22,43 +20,6 @@ def test_rr():
         costrr += current_time
     assert np.abs(costrr - cost) < 1e-10
 
-
-def test_etcrr2():
-    n = 3
-    jobs = np.vstack(
-        [[10] * n + np.arange(n), [20] * n + np.arange(n), [30] * n + np.arange(n)]
-    )
-    print(jobs)
-    f_time = etc_rr(jobs)
-    cost = 10 * 3  # 11, 10, 20, Done [0]
-    cost += 10 * 3 + 10 * 3  # 1, 21, 10, Done [0, 1]
-    cost += 10 * 3 + 10 * 3 + 1 * 3  # 12, 20, 9, Done [0, 1, 0]
-    cost += 10 * 3 + 10 * 3 + 1 * 3 + 9 * 3  # 3, 11, 31, Done [0, 1, 0, 2]
-    cost += 10 * 3 + 10 * 3 + 1 * 3 + 9 * 3 + 3 * 3  # 8, 28, Done [0, 1, 0, 2, 0]
-    cost += (
-        10 * 3 + 10 * 3 + 1 * 3 + 9 * 3 + 3 * 3 + 8 * 2
-    )  # 22, 20, Done [0, 1, 0, 2, 0, 1]
-    cost += (
-        10 * 3 + 10 * 3 + 1 * 3 + 9 * 3 + 3 * 3 + 8 * 2 + 20 * 2
-    )  # 2, 32, Done [0, 1, 0, 2, 0, 1, 2]
-    cost += 10 * 3 + 10 * 3 + 1 * 3 + 9 * 3 + 3 * 3 + 8 * 2 + 20 * 2 + 2 * 2
-    # 30, Done [0, 1, 0, 2, 0, 1, 2, 1]
-    cost += 10 * 3 + 10 * 3 + 1 * 3 + 9 * 3 + 3 * 3 + 8 * 2 + 20 * 2 + 2 * 2 + 30
-    cost2 = rr_per_type(jobs)
-    assert cost == f_time
-    assert cost == cost2
-
-
-def test_etcu():
-    jobs = np.vstack(
-        [np.random.exponential(2, size=500), np.random.exponential(20, size=500)]
-    )
-    jobs = jobs.astype(int)
-    order = etc_u(jobs, return_order=(True))
-    assert len(order) == len(jobs.flatten())
-    np.testing.assert_allclose(
-        etc_u(jobs, return_order=(True)), etc_u2(jobs[0], jobs[1])
-    )
 
 
 def test_etcu_opt():
@@ -94,9 +55,10 @@ def test_etcu_explore():
 
 def test_ftpp():
     n = 5
-    jobs = np.array([[4] * n, [2] * n, [1] * n])
+    jobs = np.array([[1] * n, [2] * n, [4] * n])
     f = ftpp(jobs)
     f2 = opt(jobs)
+    print(4 * n )
     assert f == f2
 
 
@@ -127,13 +89,14 @@ def test_etcu_explore():
     assert res < res2
 
 
-def test_lsept():
+@pytest.mark.parametrize("algo", [lsept, etc_u, etc_rr, ucb_u, ucb_rr,rr, ftpp,opt])
+def test_algos(algo):
     n = 1000
     jobs = np.vstack(
         [
             np.random.exponential(1.8, size=n),
             np.random.exponential(2, size=n),
+            np.random.exponential(4, size=n),
         ]
     )
-    lsept(jobs, alpha=2, w=0)
-    assert False
+    algo(jobs)

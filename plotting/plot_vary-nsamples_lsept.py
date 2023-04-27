@@ -20,9 +20,6 @@ results = np.load("../experiments/data/vary-nsamples_lsept.npy")
 all_flow_times = np.array(results)
 n_seeds = len(all_flow_times)
 deviation = np.std(all_flow_times, axis=0)
-print(np.shape(deviation))
-flow_times_high = np.quantile(all_flow_times, 0.9, axis=0)
-flow_times_low = np.quantile(all_flow_times, 0.1, axis=0)
 flow_times = np.mean(all_flow_times, axis=0)
 
 indices = {}
@@ -33,7 +30,7 @@ plt.figure()
 for ii, algo in enumerate([ "RR","FTPP","LSEPT"]):#"ETC-U", "ETC-RR", "UCB-U","UCB-RR",
     i = indices[algo]
     plt.semilogx(ns, flow_times[:, i], label=algo, color=COLORS[algo])
-    plt.fill_between(ns, flow_times[:, i]-3*deviation[:, i]/np.sqrt(n_seeds), flow_times[:, i]+3*deviation[:, i]/np.sqrt(n_seeds), alpha=0.1, color=COLORS[algo])
+    plt.fill_between(ns, flow_times[:, i]-2*deviation[:, i]/np.sqrt(n_seeds), flow_times[:, i]+2*deviation[:, i]/np.sqrt(n_seeds), alpha=0.1, color=COLORS[algo])
     plt.xlabel("Number of jobs per type ($n$)")
     plt.ylabel("Competitive Ratio")
 plt.legend()
