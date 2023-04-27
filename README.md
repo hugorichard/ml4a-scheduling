@@ -1,5 +1,5 @@
 # ml4a-scheduling
-Code accompanying our NeurIPS 2022 submission
+Code accompanying our ICML 2023 submission
 
 ## Install 
 
