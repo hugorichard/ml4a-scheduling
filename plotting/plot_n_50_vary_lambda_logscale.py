@@ -53,5 +53,5 @@ for i, algo in enumerate(["ETC-U", "ETC-RR", "UCB-U", "UCB-RR", "RR", "FTPP"]):
         plt.xlabel("Mean processing time of job 1 ($\lambda_1$)")
         plt.ylabel(r"$(E[C_A]-E[C_{FTPP}])/E[C_{OPT}]$")
 plt.legend()
-plt.savefig("../figures/n_50_vary_lambdas_logscale.pdf", bbox_inches="tight")
-plt.savefig("../figures/n_50_vary_lambdas_logscale.png", bbox_inches="tight")
+plt.savefig("../figures/n_50_vary_lambda_logscale.pdf", bbox_inches="tight")
+plt.savefig("../figures/n_50_vary_lambda_logscale.png", bbox_inches="tight")
