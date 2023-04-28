@@ -2,8 +2,8 @@ ml4a-scheduling
 ===============
 
 Code accompanying our ICML 2023 paper: “On Preemption and Learning in
-Stochastic Scheduling” by Nadav Merlis\ *, Hugo Richards*\ ,, Flore
-Sentenacs\ *,, Corentin Odic, Mathieu Molina and Vianney Perchet (s*\ 
+Stochastic Scheduling” by Nadav Merlis\*, Hugo Richards\*,, Flore
+Sentenacs\*,, Corentin Odic, Mathieu Molina and Vianney Perchet (\*
 Equal contribution).
 
 Documentation: https://hugorichard.github.io/ml4a-scheduling/api.html
