@@ -1,6 +1,4 @@
 version: 2
-orbs:
-  python: circleci/python@2.1.1
 
 jobs:
   test:
@@ -27,7 +25,7 @@ jobs:
               wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
               chmod +x ~/miniconda.sh && ~/miniconda.sh -b
               export PATH="$HOME/miniconda3/bin:$PATH"
-              conda create -n testenv python #pandas pytest scikit-learn joblib cython mkl -yq
+              conda create -n testenv python==3.8 #pandas pytest scikit-learn joblib cython mkl -yq
               source activate testenv
               pip install -r requirements.txt
             fi
