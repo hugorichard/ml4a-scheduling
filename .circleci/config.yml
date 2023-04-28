@@ -91,6 +91,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:bqFqQqmN2jC92oZYB+A26m+CoAM9DI8UxcxpCjpz8Io"
+
       - run:
           name: Deploy docs to gh-pages branch
           command: gh-pages --dotfiles --message "[skip ci] Updates" --dist doc/_build/html
