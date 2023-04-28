@@ -7,4 +7,4 @@ Contents
    :maxdepth: 1
 
    api
-   Fork multiviewica on Github <https://github.com/hugorichard/multiviewica/>
+   Fork mlforscheduling on Github <https://github.com/hugorichard/ml4a-scheduling/>
