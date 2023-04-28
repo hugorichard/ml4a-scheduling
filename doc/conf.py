@@ -19,7 +19,6 @@
 
 import os
 import sphinx_bootstrap_theme
-import sphinx_gallery
 from distutils.version import LooseVersion
 import matplotlib
 
@@ -38,17 +37,9 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
-    'sphinx_gallery.gen_gallery',
     'numpydoc',
     'sphinx.ext.githubpages',
 ]
-
-if LooseVersion(sphinx_gallery.__version__) < LooseVersion('0.2'):
-    raise ImportError('Must have at least version 0.2 of sphinx-gallery, got '
-                      '%s' % (sphinx_gallery.__version__,))
-
-matplotlib.use('agg')
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -114,7 +105,6 @@ html_theme_options = {
     'navbar_pagenav': False,
     'source_link_position': "",
     'navbar_links': [
-        ("Examples", "auto_examples/index"),
         ("API", "api"),
         ("GitHub", "https://github.com/hugorichard/ml4a-scheduling", True)
     ],
@@ -189,19 +179,6 @@ texinfo_documents = [
      author, 'mlforscheduling', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-sphinx_gallery_conf = {
-    'doc_module': 'mlforscheduling',
-    'backreferences_dir': os.path.join('generated'),
-    'examples_dirs': '../examples',
-    'gallery_dirs': 'auto_examples',
-    'reference_url': {
-        'mlforscheduling': None,
-        'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
-        'scipy': 'http://docs.scipy.org/doc/scipy-0.17.0/reference',
-    }
-}
-
 
 def setup(app):
     app.add_css_file('style.css')
