@@ -1,5 +1,6 @@
 # ml4a-scheduling
-Code accompanying our ICML 2023 submission
+Code accompanying our ICML 2023 submission: "On Preemption and Learning in Stochastic Scheduling"
+Documentation: https://hugorichard.github.io/ml4a-scheduling/api.html
 
 ## Install 
 
