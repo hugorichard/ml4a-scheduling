@@ -1,0 +1,8 @@
+﻿mlforscheduling.rr
+==================
+
+.. currentmodule:: mlforscheduling
+
+.. autofunction:: rr
+
+.. _sphx_glr_backreferences_mlforscheduling.rr:

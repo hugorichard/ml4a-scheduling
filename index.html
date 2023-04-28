@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>ml4a-scheduling &#8212; mlforscheduling 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="api.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          mlforscheduling</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="api.html">API</a></li>
+                <li><a href="https://github.com/hugorichard/ml4a-scheduling">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hugorichard/ml4a-scheduling/">Fork mlforscheduling on Github</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="ml4a-scheduling">
+<h1>ml4a-scheduling<a class="headerlink" href="#ml4a-scheduling" title="Permalink to this heading">¶</a></h1>
+<p>Code accompanying our ICML 2023 submission</p>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this heading">¶</a></h2>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">ml4a-scheduling</span></code> directory. After required dependency are
+installed (via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>) run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
+<p>For the core algorithms:</p>
+<ul class="simple">
+<li><p>numpy&gt;=1.16</p></li>
+<li><p>scipy&gt;=1.3.2</p></li>
+<li><p>numba &gt;= 0.56.4</p></li>
+</ul>
+<p>To reproduce and plot the experiments (Figures 1, 2 and 3).</p>
+<ul class="simple">
+<li><p>matplotlib&gt;=2.0.0</p></li>
+<li><p>joblib&gt;=1.2.0</p></li>
+</ul>
+<p>To run the tests:</p>
+<ul class="simple">
+<li><p>pytest&gt;=5.0.1</p></li>
+</ul>
+<p>To install all requirements, go in the <code class="docutils literal notranslate"><span class="pre">ml4a-scheduling</span></code> directory and
+run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p>
+</section>
+<section id="experiments">
+<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">¶</a></h2>
+<section id="scheduling-2-groups-of-a-varying-number-of-jobs-with-fixed-expected-job-processing-time-figure-1">
+<h3>Scheduling 2 groups of a varying number of jobs with fixed expected job processing time (Figure 1)<a class="headerlink" href="#scheduling-2-groups-of-a-varying-number-of-jobs-with-fixed-expected-job-processing-time-figure-1" title="Permalink to this heading">¶</a></h3>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">experiments</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">all_algos-vary-nsamples.py</span></code></p>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">plotting</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">plot_all_algos-vary-nsamples.py</span></code></p>
+<p>See the figure in <code class="docutils literal notranslate"><span class="pre">figures/all_algos_vary_nsamples.pdf</span></code>.</p>
+<figure class="align-default" id="id1">
+<img alt="Figure 1" src="_images/all_algos_vary_nsamples.png" />
+<figcaption>
+<p><span class="caption-text">Figure 1</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="scheduling-2-groups-of-n-50-jobs-with-varying-expected-job-processing-time-figure-2">
+<h3>Scheduling 2 groups of n=50 jobs with varying expected job processing time (Figure 2)<a class="headerlink" href="#scheduling-2-groups-of-n-50-jobs-with-varying-expected-job-processing-time-figure-2" title="Permalink to this heading">¶</a></h3>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">experiments</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">n_50_vary_lambda_logscale.py</span></code></p>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">plotting</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">plot_n_50_vary_lambda_logscale.py</span></code></p>
+<p>See the figure in <code class="docutils literal notranslate"><span class="pre">figures/n_50_vary_lambda_logscale.pdf</span></code>.</p>
+<figure class="align-default" id="id2">
+<img alt="Figure 2" src="_images/n_50_vary_lambda_logscale.png" />
+<figcaption>
+<p><span class="caption-text">Figure 2</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="benchmark-lsept-with-2-groups-of-a-varying-number-of-jobs-with-fixed-expected-job-processing-time-figure-3">
+<h3>Benchmark LSEPT with 2 groups of a varying number of jobs with fixed expected job processing time (Figure 3)<a class="headerlink" href="#benchmark-lsept-with-2-groups-of-a-varying-number-of-jobs-with-fixed-expected-job-processing-time-figure-3" title="Permalink to this heading">¶</a></h3>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">experiments</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">nsamples_lsept.py</span></code></p>
+<p>Go in the <code class="docutils literal notranslate"><span class="pre">plotting</span></code> directory.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">plot_vary-nsamples_lsept.py</span></code></p>
+<p>See the figure in <code class="docutils literal notranslate"><span class="pre">figures/vary-nsamples_lsept.pdf</span></code>.</p>
+<figure class="align-default" id="id3">
+<img alt="Figure 3" src="_images/vary-nsamples_lsept.png" />
+<figcaption>
+<p><span class="caption-text">Figure 3</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hugorichard/ml4a-scheduling/">Fork mlforscheduling on Github</a></li>
+</ul>
+</div>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2023-2023, mlforscheduling contributors.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

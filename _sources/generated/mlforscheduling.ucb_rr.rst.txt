@@ -1,0 +1,8 @@
+﻿mlforscheduling.ucb\_rr
+=======================
+
+.. currentmodule:: mlforscheduling
+
+.. autofunction:: ucb_rr
+
+.. _sphx_glr_backreferences_mlforscheduling.ucb_rr:

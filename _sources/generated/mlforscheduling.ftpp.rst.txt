@@ -1,0 +1,8 @@
+﻿mlforscheduling.ftpp
+====================
+
+.. currentmodule:: mlforscheduling
+
+.. autofunction:: ftpp
+
+.. _sphx_glr_backreferences_mlforscheduling.ftpp:

@@ -1,0 +1,8 @@
+﻿mlforscheduling.opt
+===================
+
+.. currentmodule:: mlforscheduling
+
+.. autofunction:: opt
+
+.. _sphx_glr_backreferences_mlforscheduling.opt:

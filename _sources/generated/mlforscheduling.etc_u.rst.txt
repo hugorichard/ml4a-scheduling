@@ -1,0 +1,8 @@
+﻿mlforscheduling.etc\_u
+======================
+
+.. currentmodule:: mlforscheduling
+
+.. autofunction:: etc_u
+
+.. _sphx_glr_backreferences_mlforscheduling.etc_u:
