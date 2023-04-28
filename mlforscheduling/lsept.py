@@ -74,6 +74,5 @@ def lsept(jobs, alpha=2, w=0, return_order=False):
 
     if return_order:
         return np.array(order)
-    if return_type:
-        return np.array(type_order)
+
     return flow_time(order)
